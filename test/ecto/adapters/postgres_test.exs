@@ -721,6 +721,10 @@ defmodule Ecto.Adapters.PostgresTest do
     query = from(m in Schema, update: [pull: [w: 0]]) |> plan(:update_all)
     assert update_all(query) ==
            ~s{UPDATE "schema" AS s0 SET "w" = array_remove(s0."w", 0)}
+
+    query = from(m in Schema, update: [prepend: [w: 0]]) |> plan(:update_all)
+    assert update_all(query) ==
+           ~s{UPDATE "schema" AS s0 SET "w" = array_prepend(s0."w", 0)}
   end
 
   test "update all with prefix" do

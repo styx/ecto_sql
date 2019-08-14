@@ -342,6 +342,11 @@ if Code.ensure_loaded?(Postgrex) do
        ", ", expr(value, sources, query), ?)]
     end
 
+    defp update_op(:prepend, key, value, sources, query) do
+      [quote_name(key), " = array_prepend(", quote_qualified_name(key, sources, 0),
+       ", ", expr(value, sources, query), ?)]
+    end
+
     defp update_op(:pull, key, value, sources, query) do
       [quote_name(key), " = array_remove(", quote_qualified_name(key, sources, 0),
        ", ", expr(value, sources, query), ?)]
